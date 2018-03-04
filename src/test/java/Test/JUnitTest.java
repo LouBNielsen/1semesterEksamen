@@ -13,6 +13,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,15 +58,14 @@ public class JUnitTest {
         try {
             String data = instance.getCatsFromFile(FILENAME);
 
-            int expected = 137;
+            int minExpected = 137;
             int actual = data.length();
-            assertEquals(expected, actual);
+            assertTrue("True that: ", minExpected <= actual);
 
         } catch (Exception e) {
             fail(e.getMessage());
         }
     }
-
 
     @Test
     public void isCatSick() {
@@ -91,7 +91,7 @@ public class JUnitTest {
 
     @Test
     public void getPersonsCat() {
-        assertAll("Tohmas' cat",
+        assertAll("Thomas' cat",
                 () -> assertEquals("Kitty", instance.getPersonsCat()),
                 () -> assertNotEquals("Sally", instance.getPersonsCat())
         );
@@ -100,6 +100,15 @@ public class JUnitTest {
     @Test
     public void setCatHealth() {
         assertThat("Erika", is(equalTo(instance.setCatHealh(true))));
+    }
+
+    @Test
+    public void setCatName() {
+        ArrayList<String> catNamesBefore = instance.catNamesList();
+        instance.setCatName("Lisa");
+        ArrayList<String> catNamesAfter = instance.catNamesList();
+
+        assertNotEquals(catNamesBefore, catNamesAfter);
     }
 
 }

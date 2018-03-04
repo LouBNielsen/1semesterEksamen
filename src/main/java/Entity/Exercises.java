@@ -45,7 +45,7 @@ public class Exercises implements Interface {
 
         System.out.println("Cat that is now sick:" + main.setCatHealh(true));
         System.out.println(main.getCatsFromFile(FILENAME));
-//        main.addCatToFile(file);
+        main.addCatToFile(FILENAME);
 //        System.out.println(main.writeCatsFromFileToList(file));
     }
 
