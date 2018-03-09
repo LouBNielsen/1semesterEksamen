@@ -6,6 +6,7 @@
 package Interfaces;
 
 import Entity.Cat;
+import Entity.Person;
 import java.util.ArrayList;
 
 /**
@@ -15,67 +16,77 @@ import java.util.ArrayList;
 public interface Interface {
 
     /**
-     * *
-     * @return The name of the cat(s) that is sick.
+     * Exercice: Return the names of the cats who are sick
+     * @param cats The list of Cats
+     * @return The cat names as a String
      */
-    public String isCatSick();
+    public String getNameOfSickCats(ArrayList<Cat> cats);
 
     /**
-     * If a cat from the ArrayList of Cats is sick, remove the cat from the
-     * ArrayList
+     * Exercise: If a cat is sick, remove the cat from the ArrayList of Cats
+     * @param cats The list of cats
+     * @return A boolean telling if a cat has been removed
      */
-    public void removeSickCat();
+    public boolean removeSickCat(ArrayList<Cat> cats);
 
     /**
-     * @return The name of the oldest cat from the ArrayList of Cats
+     * Exercise: Return the name of the oldest cat
+     * @param cats The list of cats
+     * @return The name as a String
      */
-    public String getOldestCat();
+    public String getOldestCat(ArrayList<Cat> cats);
 
     /**
-     * @return the name of the cat that is owned by the person named Thomas,
-     * from the ArrayList of Persons
+     * Exercise: Find the name of the cat owned by a person
+     * @param persons The list of persons
+     * @param name The name of the person
+     * @return The name of the cat that is owned by the person as a String
      */
-    public String getPersonsCat();
+    public String getPersonsCat(ArrayList<Person> persons, String name);
 
     /**
-     * @return a new ArrayList of Strings, only containing the names of the cats
-     * from the ArrayList of Cats
+     * Exercise: Get only the names of the cats from the ArrayList of Cats and put the names into a new ArrayList
+     * @param cats The list of cats
+     * @return An ArrayList of Strings
      */
-    public ArrayList<String> catNamesList();
+    public ArrayList<String> catNamesList(ArrayList<Cat> cats);
 
     /**
-     * @param name Is the Cats new name. If the cat's age is 5, then change the
-     * name to a new cat name
+     * Exercise: If a cat is 5 years old, then it should be possible to change that cats name
+     * @param cats The list of cats
+     * @param name The new name of the cat
      */
-    public void setCatName(String name);
+    public void setCatName(ArrayList<Cat> cats, String name);
 
     /**
-     * @param isSick Should be set to true, when calling the method.
-     * @return The name of the cat that is now sick. If the cat is over 15 years
-     * old and if the cat's color is not white, then the cat's health should be
-     * set as sick.
+     * Exercise: If the cat is older that 15 years and the cats color is not white, 
+     * then it should be possible to set the cats health as sick
+     * @param cats The list of cats
+     * @param isSick Should be set to true, when calling the method, to set the cats health as sick
+     * @return The name of the cat, that is now sick, as a String 
      */
-    public String setCatHealh(boolean isSick);
+    public String setCatHealh(ArrayList<Cat> cats, boolean isSick);
 
     /**
+     * Exercise: Read the file 'Cats.txt'
      * @param filename The name of the file to be read
      * @return The file content as a String
      */
-    public String getCatsFromFile(String filename);
+    public String readCatFile(String filename);
 
     /**
-     * @param filename The name of the file to be read Create a new Cat and
-     * write it to the file
+     * Exercise: Create a new cat and add/write it to the file as a String
+     * @param cat The new cat
+     * @param filename The name of the file to be written to
      */
-    public void addCatToFile(String filename);
+    public void addCatToFile(Cat cat, String filename);
 
     /**
-     *
-     * @param filename The name of the file to be read The file content should
-     * be read as a String Append the content of the file to a new ArrayList of
-     * Strings
-     * @return the new ArrayList of Strings with the content from the file
+     * Exercise: Create a new ArrayList of Cats, read the file 'Cats.txt' content as a String and split it, 
+     * so that is is possible to create a new cat object from the content
+     * @param filename The name of the file to be read
+     * @return The new ArrayList of Cats containing the new cats from the file
      */
-    public ArrayList<String> writeCatsFromFileToList(String filename);
+    public ArrayList<Cat> writeCatsFromFileToList(String filename);
 
 }

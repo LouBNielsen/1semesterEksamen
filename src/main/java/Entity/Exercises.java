@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *
@@ -22,78 +21,34 @@ public class Exercises implements Interface {
 
     public final static String FILENAME = "Cats.txt";
 
-    public static ArrayList<Cat> cats = new ArrayList<>();
-    public static ArrayList<Person> persons = new ArrayList<>();
-
-    Cat oMalley = new Cat("O'mally", 15, "Red", false);
-    Cat kitty = new Cat("Kitty", 5, "Black", false);
-    Cat bones = new Cat("Bones", 1, "White", true);
-    Cat skittle = new Cat("Skittle", 12, "Black and red", false);
-    Cat erika = new Cat("Erika", 16, "Red", false);
-    Cat tommy = new Cat("Tommy", 17, "White", false);
-
-    public static void main(String[] args) {
-
-        Exercises main = new Exercises();
-        System.out.println("The name of the cat(s) that is sick: " + main.isCatSick());
-//        main.removeSickCat();
-        System.out.println("The name of the oldest cat: " + main.getOldestCat());
-        System.out.println("Tommy's cat: " + main.getPersonsCat());
-        System.out.println("Names of the cats: " + main.catNamesList());
-        main.setCatName("Lisa");
-        System.out.println("Names of the cats: " + main.catNamesList());
-
-        System.out.println("Cat that is now sick:" + main.setCatHealh(true));
-        System.out.println(main.getCatsFromFile(FILENAME));
-        main.addCatToFile(FILENAME);
-//        System.out.println(main.writeCatsFromFileToList(file));
-    }
-
-    public Exercises() {
-        addCatsToArray();
-        addPersonArray();
-    }
-
-    public final void addCatsToArray() {
-        cats.add(oMalley);
-        cats.add(kitty);
-        cats.add(bones);
-        cats.add(skittle);
-        cats.add(erika);
-        cats.add(tommy);
-    }
-
-    public final void addPersonArray() {
-        persons.add(new Person("Emilie", oMalley));
-        persons.add(new Person("Thomas", kitty));
-        persons.add(new Person("Sally", bones));
-        persons.add(new Person("Simon", skittle));
-    }
-
     @Override
-    public String isCatSick() {
+    public String getNameOfSickCats(ArrayList<Cat> cats) {
+        ArrayList<String> newList = new ArrayList();
         String name = "";
-
         for (int i = 0; i < cats.size(); i++) {
             if (cats.get(i).isSick()) {
-                name = cats.get(i).getName();
+                newList.add(cats.get(i).getName());
             }
+            name = newList.toString();
         }
         return name;
     }
 
     @Override
-    public void removeSickCat() {
+    public boolean removeSickCat(ArrayList<Cat> cats) {
+        boolean removed = false;
         for (int i = 0; i < cats.size(); i++) {
             if (cats.get(i).isSick()) {
                 cats.remove(i);
-                --i;
+                removed = true;
+                i--;
             }
         }
+        return removed;
     }
 
     @Override
-    public String getOldestCat() {
+    public String getOldestCat(ArrayList<Cat> cats) {
         String name = "";
         int max = 0;
 
@@ -108,9 +63,8 @@ public class Exercises implements Interface {
     }
 
     @Override
-    public String getPersonsCat() {
-        Cat cat = null;
-        String name = "Thomas";
+    public String getPersonsCat(ArrayList<Person> persons, String name) {
+        Cat cat;
         String catName = "";
 
         for (int i = 0; i < persons.size(); i++) {
@@ -124,7 +78,7 @@ public class Exercises implements Interface {
     }
 
     @Override
-    public ArrayList<String> catNamesList() {
+    public ArrayList<String> catNamesList(ArrayList<Cat> cats) {
         ArrayList<String> newList = new ArrayList();
         for (int i = 0; i < cats.size(); i++) {
             newList.add(cats.get(i).getName());
@@ -134,7 +88,7 @@ public class Exercises implements Interface {
     }
 
     @Override
-    public void setCatName(String name) {
+    public void setCatName(ArrayList<Cat> cats, String name) {
         for (int i = 0; i < cats.size(); i++) {
             if (cats.get(i).getAge() == 5) {
                 cats.get(i).setName(name);
@@ -143,21 +97,19 @@ public class Exercises implements Interface {
     }
 
     @Override
-    public String setCatHealh(boolean isSick) {
+    public String setCatHealh(ArrayList<Cat> cats, boolean isSick) {
         String name = "";
-        System.out.println(erika.isSick());
         for (int i = 0; i < cats.size(); i++) {
             if (cats.get(i).getAge() > 15 && !"White".equals(cats.get(i).getColor())) {
                 cats.get(i).setIsSick(isSick);
                 name = cats.get(i).getName();
             }
         }
-        System.out.println(erika.isSick());
         return name;
     }
 
     @Override
-    public String getCatsFromFile(String filename) {
+    public String readCatFile(String filename) {
         String content = "";
         String newLine;
 
@@ -179,40 +131,36 @@ public class Exercises implements Interface {
     }
 
     @Override
-    public void addCatToFile(String filename) {
-        Cat cat = new Cat("Micka", 8, "Black", true);
+    public void addCatToFile(Cat cat, String filename) {
+        cat = new Cat("Micka", 8, "Black", true);
 
-        try {
-            try (FileWriter fileWriter = new FileWriter(filename, true)) {
-                fileWriter.write("\n" + cat.toString() + ";");
-            }
+        try (FileWriter fileWriter = new FileWriter(filename, true)) {
+            fileWriter.write("\n" + cat.toString());
         } catch (IOException ex) {
             ex.toString();
         }
     }
 
     @Override
-    public ArrayList<String> writeCatsFromFileToList(String filename) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String strLine = "";
-        ArrayList<String> listOfCats = new ArrayList<>();
+    public ArrayList<Cat> writeCatsFromFileToList(String filename) {
+        String newLine;
+        ArrayList<Cat> catsArray = new ArrayList();
 
         try {
             FileReader fileReader = new FileReader(filename);
             try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-                while (strLine != null) {
-                    strLine = bufferedReader.readLine();
-                    stringBuilder.append(strLine);
-                    listOfCats.add(strLine);
+                while ((newLine = bufferedReader.readLine()) != null) {
+                    String[] cat = newLine.split(",");
+                    catsArray.add(new Cat(cat[0], Integer.parseInt(cat[1]), cat[2]));
                 }
-                System.out.println(Arrays.toString(listOfCats.toArray()));
             }
+            return catsArray;
         } catch (FileNotFoundException ex) {
             ex.toString();
         } catch (IOException ex) {
             ex.toString();
         }
 
-        return listOfCats;
+        return catsArray;
     }
 }

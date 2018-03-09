@@ -23,7 +23,13 @@ public class Cat implements CatInterface {
         this.age = age;
         this.color = color;
         this.isSick = isSick;
-    }    
+    }
+
+    public Cat(String name, int age, String color) {
+        this.name = name;
+        this.age = age;
+        this.color = color;
+    }
 
     @Override
     public void setName(String name) {
@@ -59,19 +65,15 @@ public class Cat implements CatInterface {
     public boolean isSick() {
         return isSick;
     }
-   
+
     @Override
     public void setIsSick(boolean isSick) {
         this.isSick = isSick;
     }
-    
+
     @Override
     public String toString() {
         return "Cat: " + name + ", " + age + ", " + color;
     }
-
-
-    
-    
 
 }
